@@ -6,27 +6,33 @@ import Profile from "./pages/profile";
 import MyPhotos from "./pages/photos";
 import Login from "./pages/login";
 import Signup from "./pages/signup";
+import ProtectedRoutes from "./components/ui/ProtectedRoutes";
 
 export const router = createBrowserRouter([
   {
-    path: "/home",
-    element: <Home />,
-    errorElement: <Error />,
-  },
-  {
-    path: "/post",
-    element: <CreatePost />,
-    errorElement: <Error />,
-  },
-  {
-    path: "/profile",
-    element: <Profile />,
-    errorElement: <Error />,
-  },
-  {
-    path: "/myphotos",
-    element: <MyPhotos />,
-    errorElement: <Error />,
+    element: <ProtectedRoutes />,
+    children: [
+      {
+        path: "/home",
+        element: <Home />,
+        errorElement: <Error />,
+      },
+      {
+        path: "/post",
+        element: <CreatePost />,
+        errorElement: <Error />,
+      },
+      {
+        path: "/profile",
+        element: <Profile />,
+        errorElement: <Error />,
+      },
+      {
+        path: "/myphotos",
+        element: <MyPhotos />,
+        errorElement: <Error />,
+      },
+    ],
   },
   {
     path: "/login",
