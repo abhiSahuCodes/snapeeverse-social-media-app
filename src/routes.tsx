@@ -13,7 +13,7 @@ export const router = createBrowserRouter([
     element: <ProtectedRoutes />,
     children: [
       {
-        path: "/home",
+        path: "/",
         element: <Home />,
         errorElement: <Error />,
       },
