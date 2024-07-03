@@ -76,6 +76,6 @@ export const UserAuthProvider: React.FunctionComponent<
   );
 };
 
-export const userUserAuth = () => {
+export const useUserAuth = () => {
   return useContext(userAuthContext);
 };
