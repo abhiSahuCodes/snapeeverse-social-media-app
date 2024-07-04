@@ -1,5 +1,6 @@
 import { auth } from "@/firebaseConfig";
 import {
+  GoogleAuthProvider,
   User,
   createUserWithEmailAndPassword,
   onAuthStateChanged,
@@ -7,7 +8,6 @@ import {
   signInWithPopup,
   signOut,
 } from "firebase/auth";
-import { GoogleAuthProvider } from "firebase/auth/web-extension";
 import { createContext, useContext, useEffect, useState } from "react";
 
 interface IUserAuthProviderProps {
@@ -33,9 +33,16 @@ const signUp = (email: string, password: string) => {
 const logOut = () => {
   return signOut(auth);
 };
-const googleSignIn = () => {
+const googleSignIn = async () => {
   const googleAuthProvider = new GoogleAuthProvider();
-  return signInWithPopup(auth, googleAuthProvider);
+  try {
+    console.log('Attempting Google sign-in');
+    const result = await signInWithPopup(auth, googleAuthProvider);
+    console.log('Google sign-in result:', result);
+  } catch (error) {
+    console.error('Error during Google sign-in:', error);
+    throw error;
+  }
 };
 
 export const userAuthContext = createContext<AuthContextData>({
