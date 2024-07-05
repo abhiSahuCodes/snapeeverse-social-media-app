@@ -51,13 +51,13 @@ const navItems = [
     icon: settingsIcon,
   },
 ];
-const Sidebar: React.FunctionComponent<ISidebarProps> = (props) => {
+const Sidebar: React.FunctionComponent<ISidebarProps> = () => {
   const { pathname } = useLocation();
   const { logOut } = useUserAuth();
   return (
     <nav className="flex flex-col relative h-screen max-w-sm w-full">
       <div className="flex justify-center m-5">
-        <div className="text-white text-lg">PhotoGram</div>
+        <div className="text-white text-lg">Snapeeverse</div>
       </div>
       {navItems.map((item) => (
         <div

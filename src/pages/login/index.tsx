@@ -88,7 +88,7 @@ const Login: React.FunctionComponent<ILoginProps> = () => {
               <form onSubmit={handleSubmit}>
                 <CardHeader className="space-y-1">
                   <CardTitle className="text-2xl text-center mb-4">
-                    PhotoGram
+                    Snapeeverse
                   </CardTitle>
                   <CardDescription>
                     Enter your email below to create your account

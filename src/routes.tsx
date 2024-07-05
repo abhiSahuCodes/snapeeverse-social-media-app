@@ -3,7 +3,7 @@ import Home from "./pages/home";
 import Error from "./pages/error";
 import CreatePost from "./pages/post";
 import Profile from "./pages/profile";
-import MyPhotos from "./pages/photos";
+import MyPhotos from "./pages/myphotos";
 import Login from "./pages/login";
 import Signup from "./pages/signup";
 import ProtectedRoutes from "./components/ProtectedRoutes";
