@@ -1,12 +1,52 @@
+import FileUploader from "@/components/fileUploader";
 import Layout from "@/components/layout";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { useUserAuth } from "@/context/userAuthContext";
+import { FileEntry, PhotoMeta, Post } from "@/types";
 import * as React from "react";
+import { useNavigate } from "react-router-dom";
+import { createPost } from "../repository/post.service";
 
 interface ICreatePostProps {}
 
 const CreatePost: React.FunctionComponent<ICreatePostProps> = () => {
+  const navigate = useNavigate();
+  const { user } = useUserAuth();
+  const [fileEntry, setFileEntry] = React.useState<FileEntry>({
+    files: [],
+  });
+  const [post, setPost] = React.useState<Post>({
+    caption: "",
+    photos: [],
+    likes: 0,
+    userlikes: [],
+    userId: null,
+    date: new Date(),
+  });
+
+  const handleSubmit = async (e: React.MouseEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log("Uploaded File Entry : ", fileEntry.files);
+    console.log("The create post is : ", post);
+    const photoMeta: PhotoMeta[] = fileEntry.files.map((file) => ({
+      cdnUrl: file.cdnUrl as string,
+      uuid: file.uuid as string,
+    }));
+    if (user != null) {
+      const newPost: Post = {
+        ...post,
+        userId: user?.uid || null,
+        photos: photoMeta,
+      };
+      console.log("The final posy is  : ", newPost);
+      await createPost(newPost);
+      navigate("/");
+    } else {
+      navigate("/login");
+    }
+  };
   return (
     <Layout>
       <div className="flex justify-center">
@@ -15,7 +55,7 @@ const CreatePost: React.FunctionComponent<ICreatePostProps> = () => {
             Create Post
           </h3>
           <div className="p-8">
-            <form>
+            <form onSubmit={handleSubmit}>
               <div className="flex flex-col">
                 <Label className="mb-4" htmlFor="caption">
                   Photo Caption
@@ -23,13 +63,18 @@ const CreatePost: React.FunctionComponent<ICreatePostProps> = () => {
                 <Textarea
                   className="mb-8"
                   id="caption"
+                  value={post.caption}
                   placeholder="what's in your photo!"
+                  onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                    setPost({ ...post, caption: e.target.value })
+                  }
                 />
               </div>
               <div className="flex flex-col">
                 <Label className="mb-4" htmlFor="photo">
                   Photos
                 </Label>
+                <FileUploader fileEntry={fileEntry} onChange={setFileEntry}/>
               </div>
               <Button className="mt-8 w-32" type="submit">
                 Post
